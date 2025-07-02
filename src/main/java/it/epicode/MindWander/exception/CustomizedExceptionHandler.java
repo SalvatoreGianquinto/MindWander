@@ -5,10 +5,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class CustomizedExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
@@ -43,6 +44,15 @@ public class CustomizedExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
 
     public ApiError ValidationExceptionHandler(ValidationException e) {
+        ApiError error = new ApiError();
+        error.setMessage(e.getMessage());
+        error.setDataErrore(LocalDateTime.now());
+        return error;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ApiError illegalArgumentExceptionHandler(IllegalArgumentException e) {
         ApiError error = new ApiError();
         error.setMessage(e.getMessage());
         error.setDataErrore(LocalDateTime.now());
