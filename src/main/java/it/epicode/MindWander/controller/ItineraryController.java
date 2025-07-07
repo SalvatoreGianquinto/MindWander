@@ -45,7 +45,7 @@ public class ItineraryController {
         itinerary.setTitoloIti(itineraryDto.getTitoloIti());
         itinerary.setDescrizioneIti(itineraryDto.getDescrizioneIti());
         itinerary.setUserId(authenticatedUser.getId());
-        itinerary.setAutomatic(false);
+        itinerary.setAutomatic(itineraryDto.isAutomatic());;
         itinerary.setEditable(true);
 
         if (itineraryDto.getSteps() != null) {

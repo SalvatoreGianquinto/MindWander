@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtTool {
@@ -22,12 +23,18 @@ public class JwtTool {
     @Autowired
     private UserService userService;
 
-    public String createToken(User user){
-        return Jwts.builder().issuedAt(new Date()).
-                expiration(new Date(System.currentTimeMillis()+durata)).
-                subject(String.valueOf(user.getId())).
-                signWith(Keys.hmacShaKeyFor(chiaveSegreta.getBytes())).
-                compact();
+    public String createToken(User user) {
+        List<String> ruoli = user.getRuoli().stream()
+                .map(Enum::name)
+                .toList();
+
+        return Jwts.builder()
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + durata))
+                .subject(String.valueOf(user.getId()))
+                .claim("roles", ruoli)
+                .signWith(Keys.hmacShaKeyFor(chiaveSegreta.getBytes()))
+                .compact();
     }
 
     public void validateToken(String token){

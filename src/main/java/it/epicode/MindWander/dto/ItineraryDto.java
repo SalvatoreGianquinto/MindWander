@@ -15,6 +15,8 @@ public class ItineraryDto {
     @Size(max = 500, message = "Descrizione troppo lunga")
     private String descrizioneIti;
 
+    private boolean automatic;
+
     private List<ItineraryStepDto> steps = new ArrayList<>();
 
 }

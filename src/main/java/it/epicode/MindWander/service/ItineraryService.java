@@ -65,7 +65,7 @@ public class ItineraryService {
         steps.forEach(step -> step.setItinerary(itinerary));
         itinerary.setSteps(steps);
 
-        return itineraryRepository.save(itinerary);
+        return itinerary;
     }
 
     public List<Itinerary> getUserItineraries(Long userId) {
