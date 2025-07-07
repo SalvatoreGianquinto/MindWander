@@ -62,4 +62,9 @@ public class ItineraryController {
         return itineraryService.saveItinerary(itinerary);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteItinerary(@PathVariable Long id, @AuthenticationPrincipal User authenticatedUser) {
+        itineraryService.deleteItinerary(id, authenticatedUser.getId());
+    }
+
 }

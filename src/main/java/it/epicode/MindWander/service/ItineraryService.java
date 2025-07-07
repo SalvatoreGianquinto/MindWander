@@ -75,4 +75,15 @@ public class ItineraryService {
     public Itinerary saveItinerary(Itinerary itinerary) {
         return itineraryRepository.save(itinerary);
     }
+
+    public void deleteItinerary(Long itineraryId, Long userId) {
+        Itinerary itinerary = itineraryRepository.findById(itineraryId)
+                .orElseThrow(() -> new NotFoundException("Itinerario non trovato con ID: " + itineraryId));
+
+        if (!itinerary.getUserId().equals(userId)) {
+            throw new RuntimeException("Non sei autorizzato a eliminare questo itinerario");
+        }
+
+        itineraryRepository.delete(itinerary);
+    }
 }
