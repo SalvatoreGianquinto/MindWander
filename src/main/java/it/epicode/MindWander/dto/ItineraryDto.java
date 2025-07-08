@@ -16,6 +16,7 @@ public class ItineraryDto {
     private String descrizioneIti;
 
     private boolean automatic;
+    private boolean isEditable;
 
     private List<ItineraryStepDto> steps = new ArrayList<>();
 

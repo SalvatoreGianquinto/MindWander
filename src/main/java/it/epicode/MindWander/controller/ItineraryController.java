@@ -13,6 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -53,7 +54,7 @@ public class ItineraryController {
                 ItineraryStep step = new ItineraryStep();
                 step.setLuogo(stepDto.getLuogo());
                 step.setDescrActivity(stepDto.getDescrActivity());
-                step.setGiornoPrevisto(stepDto.getGiornoPrevisto());
+                step.setGiornoPrevisto(LocalDate.now());
                 step.setItinerary(itinerary);
                 itinerary.getSteps().add(step);
             }
@@ -61,6 +62,32 @@ public class ItineraryController {
 
         return itineraryService.saveItinerary(itinerary);
     }
+
+    @PutMapping("/{id}")
+    public Itinerary updateItinerary(@PathVariable Long id,
+                                     @AuthenticationPrincipal User authenticatedUser,
+                                     @Valid @RequestBody ItineraryDto itineraryDto) {
+
+        Itinerary updated = new Itinerary();
+        updated.setTitoloIti(itineraryDto.getTitoloIti());
+        updated.setDescrizioneIti(itineraryDto.getDescrizioneIti());
+        updated.setEditable(itineraryDto.isEditable());
+        updated.setUserId(authenticatedUser.getId());
+
+        if (itineraryDto.getSteps() != null) {
+            for (ItineraryStepDto stepDto : itineraryDto.getSteps()) {
+                ItineraryStep step = new ItineraryStep();
+                step.setLuogo(stepDto.getLuogo());
+                step.setDescrActivity(stepDto.getDescrActivity());
+                step.setGiornoPrevisto(stepDto.getGiornoPrevisto());
+                step.setItinerary(updated);
+                updated.getSteps().add(step);
+            }
+        }
+
+        return itineraryService.updateItinerary(id, authenticatedUser.getId(), updated);
+    }
+
 
     @DeleteMapping("/{id}")
     public void deleteItinerary(@PathVariable Long id, @AuthenticationPrincipal User authenticatedUser) {

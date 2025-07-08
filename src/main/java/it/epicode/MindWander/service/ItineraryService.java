@@ -76,6 +76,28 @@ public class ItineraryService {
         return itineraryRepository.save(itinerary);
     }
 
+    public Itinerary updateItinerary(Long itineraryId, Long userId, Itinerary updatedData) {
+        Itinerary existing = itineraryRepository.findById(itineraryId)
+                .orElseThrow(() -> new NotFoundException("Itinerario non trovato con ID: " + itineraryId));
+
+        if (!existing.getUserId().equals(userId)) {
+            throw new RuntimeException("Non sei autorizzato a modificare questo itinerario");
+        }
+
+        existing.setTitoloIti(updatedData.getTitoloIti());
+        existing.setDescrizioneIti(updatedData.getDescrizioneIti());
+        existing.setEditable(updatedData.isEditable());
+
+        existing.getSteps().clear();
+
+        for (ItineraryStep step : updatedData.getSteps()) {
+            step.setItinerary(existing);
+            existing.getSteps().add(step);
+        }
+
+        return itineraryRepository.save(existing);
+    }
+
     public void deleteItinerary(Long itineraryId, Long userId) {
         Itinerary itinerary = itineraryRepository.findById(itineraryId)
                 .orElseThrow(() -> new NotFoundException("Itinerario non trovato con ID: " + itineraryId));
