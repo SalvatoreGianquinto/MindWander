@@ -87,11 +87,11 @@ public class StrutturaService {
         strutturaResponseDto.setPrezzo(struttura.getPrezzo());
         strutturaResponseDto.setDisponibile(struttura.getDisponibile());
         strutturaResponseDto.setMoodAssociato(struttura.getMoodAssociato());
-        strutturaResponseDto.setCategoria(struttura.getCategoriaAlloggio());
+        strutturaResponseDto.setCategoriaAlloggio(struttura.getCategoriaAlloggio());
         strutturaResponseDto.setImmaginiUrl(struttura.getImmaginiUrl());
         strutturaResponseDto.setServiziExtra(struttura.getServiziExtra()
                 .stream()
-                .map(ServizioExtra::getServizio)
+                .map(ServizioExtra::getNome)
                 .collect(Collectors.toList()));
         return strutturaResponseDto;
     }
@@ -101,6 +101,18 @@ public class StrutturaService {
                 .map(id -> servizioExtraRepository.findById(id)
                         .orElseThrow(() -> new NotFoundException("Servizio extra con ID " + id + " non trovato")))
                 .collect(Collectors.toSet());
+    }
+
+    public List<StrutturaResponseDto> findWithFiltersSimple(String citta, String mood, Double minPrezzo, Double maxPrezzo) {
+        List<Struttura> strutture = strutturaRepository.findAll();
+
+        return strutture.stream()
+                .filter(s -> citta == null || s.getCitta().equalsIgnoreCase(citta))
+                .filter(s -> mood == null || s.getMoodAssociato().equalsIgnoreCase(mood))
+                .filter(s -> minPrezzo == null || s.getPrezzo() >= minPrezzo)
+                .filter(s -> maxPrezzo == null || s.getPrezzo() <= maxPrezzo)
+                .map(this::convertToResponseDto)
+                .toList();
     }
 
 }

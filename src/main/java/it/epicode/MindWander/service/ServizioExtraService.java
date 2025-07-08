@@ -25,13 +25,13 @@ public class ServizioExtraService {
 
     public ServizioExtra create(ServizioExtraDto dto) {
         ServizioExtra extra = new ServizioExtra();
-        extra.setServizio(dto.getServizio());
+        extra.setNome(dto.getServizio());
         return repository.save(extra);
     }
 
     public ServizioExtra update(Long id, ServizioExtraDto dto) {
         ServizioExtra extra = findById(id);
-        extra.setServizio(dto.getServizio());
+        extra.setNome(dto.getServizio());
         return repository.save(extra);
     }
 

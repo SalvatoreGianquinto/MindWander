@@ -15,7 +15,7 @@ public class StrutturaResponseDto {
     private Double prezzo;
     private Boolean disponibile;
     private String moodAssociato;
-    private CategoriaAlloggio categoria;
+    private CategoriaAlloggio categoriaAlloggio;
     private List<String> serviziExtra;
     private List<String> immaginiUrl;
 }
