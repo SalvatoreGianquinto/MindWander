@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -26,6 +27,13 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
     private Set<Role> ruoli;
+    @ManyToMany
+    @JoinTable(
+            name = "user_wishlist",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "struttura_id")
+    )
+    private Set<Struttura> wishlist = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -87,11 +87,11 @@ public class StrutturaService {
         strutturaResponseDto.setPrezzo(struttura.getPrezzo());
         strutturaResponseDto.setDisponibile(struttura.getDisponibile());
         strutturaResponseDto.setMoodAssociato(struttura.getMoodAssociato());
-        strutturaResponseDto.setCategoria(struttura.getCategoriaAlloggio());
+        strutturaResponseDto.setCategoriaAlloggio(struttura.getCategoriaAlloggio());
         strutturaResponseDto.setImmaginiUrl(struttura.getImmaginiUrl());
         strutturaResponseDto.setServiziExtra(struttura.getServiziExtra()
                 .stream()
-                .map(ServizioExtra::getServizio)
+                .map(ServizioExtra::getNome)
                 .collect(Collectors.toList()));
         return strutturaResponseDto;
     }

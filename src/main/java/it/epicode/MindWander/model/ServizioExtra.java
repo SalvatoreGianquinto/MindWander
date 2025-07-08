@@ -11,5 +11,5 @@ public class ServizioExtra {
     @Id
     @GeneratedValue
     private Long id;
-    private String servizio;
+    private String nome;
 }

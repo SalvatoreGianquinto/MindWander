@@ -5,23 +5,25 @@ import it.epicode.MindWander.enumeration.Role;
 import it.epicode.MindWander.exception.ForbiddenException;
 import it.epicode.MindWander.exception.NotFoundException;
 import it.epicode.MindWander.model.User;
+import it.epicode.MindWander.repository.StrutturaRepository;
 import it.epicode.MindWander.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Set;
 
+
 @Service
 public class UserService {
+
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public User saveUser(UserDto userDto){
+    public User saveUser(UserDto userDto) {
         User user = new User();
         user.setNome(userDto.getNome());
         user.setCognome(userDto.getCognome());
@@ -29,7 +31,6 @@ public class UserService {
         user.setUsername(userDto.getUsername());
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user.setRuoli(Set.of(Role.ADMIN));
-
         return userRepository.save(user);
     }
 
@@ -61,7 +62,6 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
 
     public void deleteUser(Long id, User authenticatedUser) throws NotFoundException, ForbiddenException {
         boolean isAdmin = authenticatedUser.getRuoli().stream()
@@ -95,6 +95,4 @@ public class UserService {
 
         return userRepository.save(user);
     }
-
-
 }
