@@ -40,6 +40,18 @@ public class StrutturaController {
         return strutturaService.update(id, strutturaDto);
     }
 
+    @GetMapping("/filtrate")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    public List<StrutturaResponseDto> getStruttureFiltrate(
+            @RequestParam(required = false) String citta,
+            @RequestParam(required = false) String mood,
+            @RequestParam(required = false) Double minPrezzo,
+            @RequestParam(required = false) Double maxPrezzo
+    ) {
+        return strutturaService.findWithFiltersSimple(citta, mood, minPrezzo, maxPrezzo);
+    }
+
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public void deleteStruttura(@PathVariable Long id) {

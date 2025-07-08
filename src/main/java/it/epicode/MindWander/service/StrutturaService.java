@@ -103,4 +103,16 @@ public class StrutturaService {
                 .collect(Collectors.toSet());
     }
 
+    public List<StrutturaResponseDto> findWithFiltersSimple(String citta, String mood, Double minPrezzo, Double maxPrezzo) {
+        List<Struttura> strutture = strutturaRepository.findAll();
+
+        return strutture.stream()
+                .filter(s -> citta == null || s.getCitta().equalsIgnoreCase(citta))
+                .filter(s -> mood == null || s.getMoodAssociato().equalsIgnoreCase(mood))
+                .filter(s -> minPrezzo == null || s.getPrezzo() >= minPrezzo)
+                .filter(s -> maxPrezzo == null || s.getPrezzo() <= maxPrezzo)
+                .map(this::convertToResponseDto)
+                .toList();
+    }
+
 }
