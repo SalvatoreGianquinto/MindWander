@@ -22,14 +22,12 @@ public class RecensioneService {
     private final RecensioneRepository recensioneRepository;
     private final UserRepository userRepository;
     private final StrutturaRepository strutturaRepository;
-
-    public RecensioneResponseDto salvaRecensione(RecensioneDto recensioneDto){
+    public RecensioneResponseDto salvaRecensione(RecensioneDto recensioneDto) {
         User user = userRepository.findById(recensioneDto.getUserId())
-                .orElseThrow(() -> new NotFoundException("Utente con ID "+ recensioneDto.getUserId() + " non trovato"));
+                .orElseThrow(() -> new NotFoundException("Utente con ID " + recensioneDto.getUserId() + " non trovato"));
 
         Struttura struttura = strutturaRepository.findById(recensioneDto.getStrutturaId())
                 .orElseThrow(() -> new NotFoundException("Struttura con ID " + recensioneDto.getStrutturaId() + " non trovata"));
-
 
         boolean recensioneEsistente = recensioneRepository
                 .existsByUserIdAndStrutturaId(user.getId(), struttura.getId());
@@ -37,7 +35,6 @@ public class RecensioneService {
         if (recensioneEsistente) {
             throw new IllegalArgumentException("Hai già lasciato una recensione per questa struttura.");
         }
-
 
         Recensione recensione = new Recensione();
         recensione.setVoto(recensioneDto.getVoto());
@@ -48,27 +45,27 @@ public class RecensioneService {
 
         recensioneRepository.save(recensione);
 
+        return toDto(recensione);
+    }
+
+    public List<RecensioneResponseDto> getRecensioniByStruttura(Long strutturaId) {
+        return recensioneRepository.findByStrutturaId(strutturaId).stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    public Double getMediaVotiByStruttura(Long strutturaId) {
+        Double media = recensioneRepository.calcolaMediaVotiPerStruttura(strutturaId);
+        return media != null ? media : 0.0;
+    }
+
+    private RecensioneResponseDto toDto(Recensione recensione) {
         return new RecensioneResponseDto(
-                user.getUsername(),
+                recensione.getId(),
+                recensione.getUser().getUsername(),
                 recensione.getVoto(),
                 recensione.getCommento(),
                 recensione.getData()
         );
-    }
-
-    public List<RecensioneResponseDto> getRecensioniByStruttura(Long strutturaId){
-        return recensioneRepository.findByStrutturaId(strutturaId).stream()
-                .map(r -> new RecensioneResponseDto(
-                        r.getUser().getUsername(),
-                        r.getVoto(),
-                        r.getCommento(),
-                        r.getData()
-                ))
-                .toList();
-    }
-
-    public Double getMediaVotiByStruttura(Long strutturaId){
-        Double media = recensioneRepository.calcolaMediaVotiPerStruttura(strutturaId);
-        return media != null ? media : 0.0;
     }
 }

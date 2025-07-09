@@ -29,7 +29,4 @@ public class Struttura {
     private Set<ServizioExtra> serviziExtra = new HashSet<>();
     @ElementCollection
     private List<String> immaginiUrl = new ArrayList<>();
-    @ManyToMany(mappedBy = "wishlist")
-    private Set<User> utentiCheHannoInWishlist = new HashSet<>();
-
 }
