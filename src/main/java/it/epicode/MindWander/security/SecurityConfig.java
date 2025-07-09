@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .requestMatchers("/itineraries/**").permitAll()
                 .requestMatchers("/strutture/**").permitAll()
                 .requestMatchers("/servizi-extra/**").permitAll()
+                .requestMatchers("/recensioni/**").permitAll()
                 .anyRequest().authenticated()
         );
 
