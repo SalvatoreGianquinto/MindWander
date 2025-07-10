@@ -13,7 +13,6 @@ public class RecensioneDto {
     private int voto;
     @NotBlank(message = "Il commento non può essere vuoto")
     private String commento;
-    @NotNull(message = "L'ID utente è obbligatorio")
     private Long userId;
     @NotNull(message = "L'ID della struttura è obbligatorio")
     private Long strutturaId;
