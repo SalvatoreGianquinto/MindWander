@@ -34,6 +34,11 @@ public class RecensioneController {
         return recensioneService.getRecensioniByStruttura(strutturaId);
     }
 
+    @GetMapping("/mie")
+    public List<RecensioneResponseDto> getRecensioniUtente(@AuthenticationPrincipal User user) {
+        return recensioneService.getRecensioniByUser(user);
+    }
+
     @GetMapping("/struttura/{strutturaId}/media")
     public Double getMedia(@PathVariable Long strutturaId) {
         return recensioneService.getMediaVotiByStruttura(strutturaId);

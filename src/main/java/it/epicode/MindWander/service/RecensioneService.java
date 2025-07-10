@@ -54,6 +54,13 @@ public class RecensioneService {
                 .toList();
     }
 
+    public List<RecensioneResponseDto> getRecensioniByUser(User user) {
+        List<Recensione> recensioni = recensioneRepository.findByUser(user);
+        return recensioni.stream()
+                .map(this::toDto)
+                .toList();
+    }
+
     public Double getMediaVotiByStruttura(Long strutturaId) {
         Double media = recensioneRepository.calcolaMediaVotiPerStruttura(strutturaId);
         return media != null ? media : 0.0;
