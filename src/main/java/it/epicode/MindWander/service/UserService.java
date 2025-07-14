@@ -10,6 +10,8 @@ import it.epicode.MindWander.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -81,7 +83,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Utente non trovato con id: " + id));
 
-        Set<Role> ruoli = user.getRuoli();
+        Set<Role> ruoli = new HashSet<>(user.getRuoli()); // copia mutabile
 
         if (addRoles != null) {
             ruoli.addAll(addRoles);
@@ -91,8 +93,11 @@ public class UserService {
             ruoli.removeAll(removeRoles);
         }
 
-        user.setRuoli(ruoli);
+        if (ruoli.isEmpty()) {
+            throw new IllegalArgumentException("Un utente deve avere almeno un ruolo.");
+        }
 
+        user.setRuoli(ruoli);
         return userRepository.save(user);
     }
 }
