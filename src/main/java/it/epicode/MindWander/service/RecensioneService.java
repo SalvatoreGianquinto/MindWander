@@ -75,4 +75,16 @@ public class RecensioneService {
                 recensione.getData()
         );
     }
+
+    public List<RecensioneResponseDto> getAllRecensioni() {
+        return recensioneRepository.findAll().stream()
+                .map(this::toDto)
+                .toList();
+    }
+
+    public void deleteRecensione(Long id) {
+        Recensione recensione = recensioneRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Recensione non trovata con id: " + id));
+        recensioneRepository.delete(recensione);
+    }
 }
