@@ -6,6 +6,7 @@ import it.epicode.MindWander.model.User;
 import it.epicode.MindWander.service.RecensioneService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,17 @@ public class RecensioneController {
     @GetMapping("/struttura/{strutturaId}/media")
     public Double getMedia(@PathVariable Long strutturaId) {
         return recensioneService.getMediaVotiByStruttura(strutturaId);
+    }
+
+    @GetMapping("/all")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<RecensioneResponseDto> getAllRecensioni() {
+        return recensioneService.getAllRecensioni();
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public void deleteRecensione(@PathVariable Long id) {
+        recensioneService.deleteRecensione(id);
     }
 }
