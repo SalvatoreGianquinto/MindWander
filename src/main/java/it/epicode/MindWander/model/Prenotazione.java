@@ -1,5 +1,7 @@
 package it.epicode.MindWander.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -27,9 +29,13 @@ public class Prenotazione {
     private User user;
     @ManyToOne
     @JoinColumn(name = "struttura_id", nullable = false)
+    @JsonIgnoreProperties({"recensioni", "serviziExtra", "immaginiUrl"})
     private Struttura struttura;
     @JsonProperty("prezzoTotale")
     public double getPrezzoTotale() {
+        if (struttura == null || struttura.getPrezzo() == null) {
+            return 0.0;
+        }
         long giorni = ChronoUnit.DAYS.between(dataInizio, dataFine);
         if (giorni <= 0) {
             return 0.0;
