@@ -25,6 +25,8 @@ public class Struttura {
     private String moodAssociato;
     @Enumerated(EnumType.STRING)
     private CategoriaAlloggio categoriaAlloggio;
+    @OneToMany(mappedBy = "struttura", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Recensione> recensioni;
     @ManyToMany
     private Set<ServizioExtra> serviziExtra = new HashSet<>();
     @ElementCollection

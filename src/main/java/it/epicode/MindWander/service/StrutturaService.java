@@ -3,6 +3,7 @@ package it.epicode.MindWander.service;
 import it.epicode.MindWander.dto.StrutturaDto;
 import it.epicode.MindWander.dto.StrutturaResponseDto;
 import it.epicode.MindWander.exception.NotFoundException;
+import it.epicode.MindWander.model.Recensione;
 import it.epicode.MindWander.model.ServizioExtra;
 import it.epicode.MindWander.model.Struttura;
 import it.epicode.MindWander.repository.ServizioExtraRepository;
@@ -103,7 +104,7 @@ public class StrutturaService {
                 .collect(Collectors.toSet());
     }
 
-    public List<StrutturaResponseDto> findWithFiltersSimple(String citta, String mood, Double minPrezzo, Double maxPrezzo) {
+    public List<StrutturaResponseDto> findWithFiltersSimple(String citta, String mood, Double minPrezzo, Double maxPrezzo, Double votoMedioMin) {
         List<Struttura> strutture = strutturaRepository.findAll();
 
         return strutture.stream()
@@ -111,8 +112,16 @@ public class StrutturaService {
                 .filter(s -> mood == null || s.getMoodAssociato().equalsIgnoreCase(mood))
                 .filter(s -> minPrezzo == null || s.getPrezzo() >= minPrezzo)
                 .filter(s -> maxPrezzo == null || s.getPrezzo() <= maxPrezzo)
+                .filter(s -> votoMedioMin == null ||
+                        (!s.getRecensioni().isEmpty() &&
+                                s.getRecensioni().stream()
+                                        .mapToInt(Recensione::getVoto)
+                                        .average()
+                                        .orElse(0) >= votoMedioMin))
                 .map(this::convertToResponseDto)
                 .toList();
     }
+
+
 
 }

@@ -46,9 +46,10 @@ public class StrutturaController {
             @RequestParam(required = false) String citta,
             @RequestParam(required = false) String mood,
             @RequestParam(required = false) Double minPrezzo,
-            @RequestParam(required = false) Double maxPrezzo
+            @RequestParam(required = false) Double maxPrezzo,
+            @RequestParam(required = false) Double votoMedioMin
     ) {
-        return strutturaService.findWithFiltersSimple(citta, mood, minPrezzo, maxPrezzo);
+        return strutturaService.findWithFiltersSimple(citta, mood, minPrezzo, maxPrezzo, votoMedioMin);
     }
 
 
