@@ -1,9 +1,11 @@
 package it.epicode.MindWander.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @Data
@@ -26,4 +28,12 @@ public class Prenotazione {
     @ManyToOne
     @JoinColumn(name = "struttura_id", nullable = false)
     private Struttura struttura;
+    @JsonProperty("prezzoTotale")
+    public double getPrezzoTotale() {
+        long giorni = ChronoUnit.DAYS.between(dataInizio, dataFine);
+        if (giorni <= 0) {
+            return 0.0;
+        }
+        return giorni * struttura.getPrezzo();
+    }
 }
