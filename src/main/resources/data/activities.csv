@@ -2,6 +2,62 @@ citta,nomeAct,descrizione,mood,oreConsigliate
 Roma,Colosseo,Visita al Colosseo,Rilassato,3
 Roma,Pantheon,Visita al Pantheon,Rilassato,1
 Roma,Trastevere Passeggiata,Relax nel quartiere storico,Rilassato,2
+Roma,Fori Imperiali,Visita agli antichi fori,Culturale,2
+Roma,Villa Borghese,Passeggiata nel parco,Rilassato,2
+Roma,Cena tipica romana,Degustazione piatti tradizionali,Gustoso,3
+
 Firenze,Galleria Uffizi,Visita alla galleria d’arte,Rilassato,3
+Firenze,Duomo di Firenze,Salita sulla cupola,Culturale,2
+Firenze,Ponte Vecchio,Passeggiata sul ponte storico,Rilassato,1
+Firenze,Lezione di cucina toscana,Corso pratico di cucina,Gustoso,3
+Firenze,Basilica di Santa Croce,Visita culturale,Culturale,2
+Firenze,Camminata sugli Arno,Relax lungo il fiume,Rilassato,2
+
 Napoli,Street Food Tour,Degustazione piatti tipici,Spensierato,2
+Napoli,Scavi di Pompei,Visita archeologica,Culturale,3
+Napoli,Passeggiata Lungomare,Rilassarsi con vista mare,Rilassato,2
+Napoli,Camminata nel centro storico,Passeggiata tra vicoli storici,Rilassato,2
+Napoli,Lezione di pizza,Impara a fare la pizza,Gustoso,3
+Napoli,Visita al Vesuvio,Escursione avventurosa,Avventuroso,3
+
 Milano,Duomo,Visita al Duomo,Rilassato,2
+Milano,Galleria Vittorio Emanuele,Shopping e passeggiata,Rilassato,2
+Milano,Teatro alla Scala,Visita e tour culturale,Culturale,2
+Milano,Lezione di moda,Workshop creativo,Creativo,2
+Milano,Navigli,Serata tra i canali,Rilassato,3
+Milano,Parco Sempione,Relax e natura,Rilassato,2
+
+Parigi,Louvre,Visita al celebre museo,Culturale,3
+Parigi,Crociera sulla Senna,Relax romantico di sera,Romantico,1
+Parigi,Le Marais Food Tour,Degustazione locale,Gustoso,2
+Parigi,Torre Eiffel,Salita e panorama,Romantico,2
+Parigi,Visita a Montmartre,Passeggiata culturale,Culturale,2
+Parigi,Lezione di pittura,Attività creativa,Creativo,3
+
+Londra,Tower of London,Tour storico nella torre,Culturale,8
+Londra,Climbing The O2,Esperienza adrenalinica,Avventuroso,1
+Londra,Afternoon Tea,Relax in un hotel classico,Gustoso,1
+Londra,Visita al British Museum,Arte e storia,Culturale,3
+Londra,Hyde Park,Passeggiata e relax,Rilassato,2
+Londra,Tour dei pub storici,Serata sociale,Sociale,3
+
+Tokyo,Tempio Senso-ji,Visita spirituale e culturale,Spirituale,1
+Tokyo,Karaoke Night,Divertimento con gli amici,Sociale,2
+Tokyo,Corso di Sushi,Impara a fare sushi,Gustoso,2
+Tokyo,Giro nel quartiere di Shibuya,Esplorazione urbana,Avventuroso,2
+Tokyo,Visita al Museo Edo-Tokyo,Culturale,3
+Tokyo,Lezione di calligrafia,Attività creativa,Creativo,2
+
+New York,Empire State Building,Panorama e foto romantiche,Romantico,1
+New York,Bike Tour a Manhattan,Esplorazione dinamica,Avventuroso,2
+New York,MOMA,Arte moderna e design,Culturale,2
+New York,Central Park,Passeggiata e relax,Rilassato,2
+New York,Serata jazz,Musica dal vivo,Sociale,3
+New York,Lezione di fotografia,Workshop creativo,Creativo,3
+
+Barcellona,Flamenco Show,Spettacolo tradizionale,Sociale,1
+Barcellona,Parapendio sopra la costa,Esperienza estrema,Avventuroso,2
+Barcellona,Visita alla Cattedrale,Luogo storico e spirituale,Spirituale,1
+Barcellona,Visita alla Sagrada Familia,Culturale,3
+Barcellona,Tour tapas,Degustazione di piatti,Gustoso,2
+Barcellona,Giro in bici al parco Güell,Relax e natura,Rilassato,2
