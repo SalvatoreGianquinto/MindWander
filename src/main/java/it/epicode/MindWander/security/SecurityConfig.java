@@ -25,7 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, JwtFilter jwtFilter) throws Exception {
         httpSecurity.formLogin(http -> http.disable());
         httpSecurity.csrf(http -> http.disable());
         httpSecurity.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -37,13 +37,15 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/users").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/users/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE, "/users/**").permitAll()
-                .requestMatchers("/itineraries/**").permitAll()
-                .requestMatchers("/strutture/**").permitAll()
+                .requestMatchers("/itineraries/**").authenticated()
+                .requestMatchers("/strutture/**").authenticated()
                 .requestMatchers("/servizi-extra/**").permitAll()
                 .requestMatchers("/recensioni/**").permitAll()
                 .requestMatchers("/prenotazioni/**").permitAll()
                 .anyRequest().authenticated()
         );
+
+        httpSecurity.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return httpSecurity.build();
     }
