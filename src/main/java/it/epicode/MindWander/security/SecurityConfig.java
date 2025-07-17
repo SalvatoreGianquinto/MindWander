@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers("/strutture/**").authenticated()
                 .requestMatchers("/servizi-extra/**").permitAll()
                 .requestMatchers("/recensioni/**").permitAll()
-                .requestMatchers("/prenotazioni/**").permitAll()
+                .requestMatchers("/prenotazioni/**").authenticated()
                 .anyRequest().authenticated()
         );
 

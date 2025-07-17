@@ -2,6 +2,7 @@ package it.epicode.MindWander.service;
 
 import it.epicode.MindWander.dto.PrenotazioneDto;
 import it.epicode.MindWander.exception.NotFoundException;
+import it.epicode.MindWander.exception.UnAuthorizedException;
 import it.epicode.MindWander.model.Prenotazione;
 import it.epicode.MindWander.model.Struttura;
 import it.epicode.MindWander.model.User;
@@ -59,7 +60,6 @@ public class PrenotazioneService {
             throw new NotFoundException("La data di inizio deve essere prima della data di fine");
         }
 
-        // Controllo sovrapposizioni (escludendo questa prenotazione)
         List<Prenotazione> sovrapposte = prenotazioneRepository
                 .findByStrutturaIdAndDataFineAfterAndDataInizioBefore(
                         prenotazione.getStruttura().getId(),
@@ -70,7 +70,7 @@ public class PrenotazioneService {
                 .anyMatch(p -> !p.getId().equals(id));
 
         if (overlap) {
-            throw new NotFoundException("Struttura non disponibile nelle date selezionate");
+            throw new NotFoundException("Hai già una prenotazione per quelle data");
         }
 
         prenotazione.setDataInizio(dto.getDataInizio());
@@ -86,7 +86,7 @@ public class PrenotazioneService {
                 .orElseThrow(() -> new NotFoundException("Prenotazione non trovata"));
 
         if (!prenotazione.getUser().getId().equals(user.getId())) {
-            throw new NotFoundException("Non puoi cancellare questa prenotazione");
+            throw new UnAuthorizedException("Non puoi cancellare questa prenotazione");
         }
 
         prenotazioneRepository.delete(prenotazione);
