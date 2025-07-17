@@ -33,10 +33,7 @@ public class SecurityConfig {
 
         httpSecurity.authorizeHttpRequests(auth -> auth
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/users/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                .requestMatchers(HttpMethod.PUT, "/users/**").permitAll()
-                .requestMatchers(HttpMethod.DELETE, "/users/**").permitAll()
+                .requestMatchers("/users/**").authenticated()
                 .requestMatchers("/itineraries/**").authenticated()
                 .requestMatchers("/strutture/**").authenticated()
                 .requestMatchers("/servizi-extra/**").permitAll()
