@@ -1,6 +1,7 @@
 package it.epicode.MindWander.controller;
 
 import it.epicode.MindWander.dto.PrenotazioneDto;
+import it.epicode.MindWander.dto.PrenotazioneViewDto;
 import it.epicode.MindWander.model.Prenotazione;
 import it.epicode.MindWander.model.User;
 import it.epicode.MindWander.service.PrenotazioneService;
@@ -44,8 +45,8 @@ public class PrenotazioniController {
     }
 
     @GetMapping("/miei")
-    public List<Prenotazione> getPrenotazioniUtente(@AuthenticationPrincipal User user) {
-        return prenotazioneService.trovaPrenotazioniUtente(user);
+    public List<PrenotazioneViewDto> getPrenotazioniUtente(@AuthenticationPrincipal User user) {
+        return prenotazioneService.trovaPrenotazioniUtenteView(user);
     }
 
 }

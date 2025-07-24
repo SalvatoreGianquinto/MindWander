@@ -36,9 +36,10 @@ public class SecurityConfig {
                 .requestMatchers("/users/**").authenticated()
                 .requestMatchers("/itineraries/**").authenticated()
                 .requestMatchers("/strutture/**").authenticated()
-                .requestMatchers("/servizi-extra/**").permitAll()
-                .requestMatchers("/recensioni/**").permitAll()
+                .requestMatchers("/servizi-extra/**").authenticated()
+                .requestMatchers("/recensioni/**").authenticated()
                 .requestMatchers("/prenotazioni/**").authenticated()
+                .requestMatchers("/stanza/**").authenticated()
                 .anyRequest().authenticated()
         );
 

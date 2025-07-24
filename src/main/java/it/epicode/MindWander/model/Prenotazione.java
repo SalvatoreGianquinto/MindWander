@@ -28,18 +28,18 @@ public class Prenotazione {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "struttura_id", nullable = false)
-    @JsonIgnoreProperties({"recensioni", "serviziExtra", "immaginiUrl"})
-    private Struttura struttura;
+    @JoinColumn(name = "stanza_id", nullable = false)
+    @JsonIgnoreProperties({"prenotazioni", "struttura"})
+    private Stanza stanza;
     @JsonProperty("prezzoTotale")
     public double getPrezzoTotale() {
-        if (struttura == null || struttura.getPrezzo() == null) {
+        if (stanza == null || stanza.getPrezzo() == null) {
             return 0.0;
         }
         long giorni = ChronoUnit.DAYS.between(dataInizio, dataFine);
         if (giorni <= 0) {
             return 0.0;
         }
-        return giorni * struttura.getPrezzo();
+        return giorni * stanza.getPrezzo();
     }
 }

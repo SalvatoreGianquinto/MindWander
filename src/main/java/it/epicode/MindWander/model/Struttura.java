@@ -31,4 +31,6 @@ public class Struttura {
     private Set<ServizioExtra> serviziExtra = new HashSet<>();
     @ElementCollection
     private List<String> immaginiUrl = new ArrayList<>();
+    @OneToMany(mappedBy = "struttura", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Stanza> stanze = new ArrayList<>();
 }

@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Data
 public class PrenotazioneDto {
     @NotNull(message = "L'id della struttura è obbligatorio")
-    private Long strutturaId;
+    private Long stanzaId;
     @NotNull(message = "La data di inizio è obbligatoria")
     @FutureOrPresent(message = "La data di inizio deve essere oggi o nel futuro")
     private LocalDate dataInizio;
@@ -18,5 +18,6 @@ public class PrenotazioneDto {
     private LocalDate dataFine;
     @NotNull(message = "Numero ospiti è obbligatorio")
     private int numeroOspiti;
+    private StrutturaDto struttura;
     private String note;
 }

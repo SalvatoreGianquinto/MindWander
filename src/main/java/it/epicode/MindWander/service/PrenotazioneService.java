@@ -1,13 +1,14 @@
 package it.epicode.MindWander.service;
 
 import it.epicode.MindWander.dto.PrenotazioneDto;
+import it.epicode.MindWander.dto.PrenotazioneViewDto;
 import it.epicode.MindWander.exception.NotFoundException;
 import it.epicode.MindWander.exception.UnAuthorizedException;
 import it.epicode.MindWander.model.Prenotazione;
-import it.epicode.MindWander.model.Struttura;
+import it.epicode.MindWander.model.Stanza;
 import it.epicode.MindWander.model.User;
 import it.epicode.MindWander.repository.PrenotazioneRepository;
-import it.epicode.MindWander.repository.StrutturaRepository;
+import it.epicode.MindWander.repository.StanzaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,29 +18,28 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PrenotazioneService {
     private final PrenotazioneRepository prenotazioneRepository;
-    private final StrutturaRepository strutturaRepository;
+    private final StanzaRepository stanzaRepository;
 
-    public Prenotazione creaPrenotazione(PrenotazioneDto prenotazioneDto, User user){
-        Struttura struttura = strutturaRepository.findById(prenotazioneDto.getStrutturaId())
-                .orElseThrow(()-> new NotFoundException("Struttura non trovata"));
+    public Prenotazione creaPrenotazione(PrenotazioneDto prenotazioneDto, User user) {
+        Stanza stanza = stanzaRepository.findById(prenotazioneDto.getStanzaId())
+                .orElseThrow(() -> new NotFoundException("Stanza non trovata"));
 
-        if(prenotazioneDto.getDataInizio().isAfter(prenotazioneDto.getDataFine())) {
-            throw new RuntimeException("La data di inizio deve essere prima della data di fine");
+        if (prenotazioneDto.getDataInizio().isAfter(prenotazioneDto.getDataFine())) {
+            throw new NotFoundException("La data di inizio deve essere prima della data di fine");
         }
 
-        List<Prenotazione> sovrapposte = prenotazioneRepository
-                .findByStrutturaIdAndDataFineAfterAndDataInizioBefore(
-                        prenotazioneDto.getStrutturaId(),
-                        prenotazioneDto.getDataInizio(),
-                        prenotazioneDto.getDataFine());
+        List<Prenotazione> sovrapposte = prenotazioneRepository.findOverlappingPrenotazioni(
+                prenotazioneDto.getStanzaId(),
+                prenotazioneDto.getDataInizio(),
+                prenotazioneDto.getDataFine());
 
         if (!sovrapposte.isEmpty()) {
-            throw new RuntimeException("Struttura non disponibile nelle date selezionate");
+            throw new NotFoundException("Stanza non disponibile nelle date selezionate");
         }
 
         Prenotazione p = new Prenotazione();
         p.setUser(user);
-        p.setStruttura(struttura);
+        p.setStanza(stanza);
         p.setNumeroOspiti(prenotazioneDto.getNumeroOspiti());
         p.setNote(prenotazioneDto.getNote());
         p.setDataInizio(prenotazioneDto.getDataInizio());
@@ -53,24 +53,23 @@ public class PrenotazioneService {
                 .orElseThrow(() -> new NotFoundException("Prenotazione non trovata"));
 
         if (!prenotazione.getUser().getId().equals(user.getId())) {
-            throw new NotFoundException("Non puoi modificare questa prenotazione");
+            throw new UnAuthorizedException("Non puoi modificare questa prenotazione");
         }
 
-        if(dto.getDataInizio().isAfter(dto.getDataFine())) {
+        if (dto.getDataInizio().isAfter(dto.getDataFine())) {
             throw new NotFoundException("La data di inizio deve essere prima della data di fine");
         }
 
-        List<Prenotazione> sovrapposte = prenotazioneRepository
-                .findByStrutturaIdAndDataFineAfterAndDataInizioBefore(
-                        prenotazione.getStruttura().getId(),
-                        dto.getDataInizio(),
-                        dto.getDataFine());
+        List<Prenotazione> sovrapposte = prenotazioneRepository.findOverlappingPrenotazioni(
+                prenotazione.getStanza().getId(),
+                dto.getDataInizio(),
+                dto.getDataFine());
 
         boolean overlap = sovrapposte.stream()
                 .anyMatch(p -> !p.getId().equals(id));
 
         if (overlap) {
-            throw new NotFoundException("Hai già una prenotazione per quelle data");
+            throw new NotFoundException("Stanza non disponibile nelle date selezionate");
         }
 
         prenotazione.setDataInizio(dto.getDataInizio());
@@ -96,4 +95,23 @@ public class PrenotazioneService {
         return prenotazioneRepository.findByUserId(user.getId());
     }
 
+    private PrenotazioneViewDto mapToViewDto(Prenotazione p) {
+        PrenotazioneViewDto dto = new PrenotazioneViewDto();
+        dto.setId(p.getId());
+        dto.setNomeStruttura(p.getStanza().getStruttura().getNome());
+        dto.setNomeStanza(p.getStanza().getNome());
+        dto.setDataInizio(p.getDataInizio());
+        dto.setDataFine(p.getDataFine());
+        dto.setNumeroOspiti(p.getNumeroOspiti());
+        dto.setPrezzoTotale(p.getPrezzoTotale());
+        dto.setNote(p.getNote());
+        return dto;
+    }
+
+    public List<PrenotazioneViewDto> trovaPrenotazioniUtenteView(User user) {
+        List<Prenotazione> prenotazioni = prenotazioneRepository.findByUserId(user.getId());
+        return prenotazioni.stream()
+                .map(this::mapToViewDto)
+                .toList();
+    }
 }

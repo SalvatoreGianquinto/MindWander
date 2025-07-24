@@ -18,4 +18,5 @@ public class StrutturaResponseDto {
     private CategoriaAlloggio categoriaAlloggio;
     private List<String> serviziExtra;
     private List<String> immaginiUrl;
+    private List<StanzaDto> stanze;
 }

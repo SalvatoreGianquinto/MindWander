@@ -30,4 +30,5 @@ public class StrutturaDto {
     private List<Long> serviziExtraIds;
     @NotNull(message = "La lista delle immagini deve essere specificata")
     private List<String> immaginiUrl;
+    private List<StanzaDto> stanze;
 }

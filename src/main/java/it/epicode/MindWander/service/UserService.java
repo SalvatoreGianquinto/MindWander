@@ -83,7 +83,7 @@ public class UserService {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Utente non trovato con id: " + id));
 
-        Set<Role> ruoli = new HashSet<>(user.getRuoli()); // copia mutabile
+        Set<Role> ruoli = new HashSet<>(user.getRuoli());
 
         if (addRoles != null) {
             ruoli.addAll(addRoles);
