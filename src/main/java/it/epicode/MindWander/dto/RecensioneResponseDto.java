@@ -11,5 +11,6 @@ public class RecensioneResponseDto {
     private String autore;
     private int voto;
     private String commento;
+    private String nomeStruttura;
     private LocalDate data = LocalDate.now();
 }

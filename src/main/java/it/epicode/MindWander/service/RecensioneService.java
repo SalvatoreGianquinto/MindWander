@@ -72,6 +72,7 @@ public class RecensioneService {
                 recensione.getUser().getUsername(),
                 recensione.getVoto(),
                 recensione.getCommento(),
+                recensione.getStruttura().getNome(),
                 recensione.getData()
         );
     }

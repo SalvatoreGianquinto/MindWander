@@ -58,8 +58,6 @@ public class StrutturaService {
         struttura.setImmaginiUrl(dto.getImmaginiUrl());
         struttura.setServiziExtra(getServiziExtraByIds(dto.getServiziExtraIds()));
 
-        struttura.getStanze().clear();
-        struttura.getStanze().addAll(convertToStanze(dto.getStanze(), struttura));
 
         strutturaRepository.save(struttura);
         return convertToResponseDto(struttura);
