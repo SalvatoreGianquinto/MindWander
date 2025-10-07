@@ -24,6 +24,7 @@ public class SimpleCorsFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse res = (HttpServletResponse) response;
 
+        // Permetti il front-end di accedere
         res.setHeader("Access-Control-Allow-Origin", "https://mind-wander-fe.vercel.app");
         res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         res.setHeader("Access-Control-Allow-Headers", "Authorization, Content-Type");
